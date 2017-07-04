@@ -5,8 +5,8 @@ import utils
 import random
 
 
-# read motifs
-motif_dir = '/cs/grad/pazbu/paz/dev/projects/dna-simulator/motifs/'
+# read motif_pwms
+motif_dir = '/cs/grad/pazbu/paz/dev/projects/dna-simulator/motif_pwms/'
 motif_files = sorted(listdir(motif_dir))
 motifs_and_headers = []
 for motif_name in motif_files:
@@ -29,13 +29,14 @@ neg_samples = [seqs_and_headers[i] for i in range(len(seqs_and_headers)) if i%2 
 # embed motif in center
 h, pwm = motifs_and_headers[0]
 for i in range(len(pos_samples)):
+    offset_idx = random.randint(-50, 50)
     header, seq = pos_samples[i]
-    replaced_seq = mf.replace_at(seq, mf.sample_motif(pwm), 250)
+    replaced_seq = mf.replace_at(seq, mf.sample_motif(pwm), 250 + offset_idx)
     pos_samples[i] = (header, replaced_seq)
 
 
 # write files
-pos_out_path = 'pos.fasta'
+pos_out_path = 'pos_single_motif_50_from_center.fasta'
 neg_out_path = 'neg.fasta'
 with open(pos_out_path, 'w') as f:
     for header, seq in pos_samples:

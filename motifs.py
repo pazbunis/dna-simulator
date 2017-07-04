@@ -1,8 +1,10 @@
 import numpy as np
 import sys
+from Bio.Seq import Seq
+from random import randint
 
 bases = ['A', 'C', 'G', 'T']
-
+revcomp_map = {'A' : 'T', 'C' : 'G', 'G' : 'C', 'T' : 'A'}
 
 def get_motif_pwm(homer_motif_path):
     with open(homer_motif_path, 'r') as f:
@@ -18,13 +20,17 @@ def get_motif_pwm(homer_motif_path):
     return header, pwm
 
 
-def sample_motif(pwm):
+def sample_motif(pwm, random_rev_comp=True):
     motif = []
     cols = np.shape(pwm)[1]
     for c in range(cols):
         bases_idx = np.random.multinomial(1, pwm[:, c])
         base = bases[np.argmax(bases_idx)]
         motif.append(base)
+
+    do_revcomp = randint(0, 1)
+    if random_rev_comp and do_revcomp:
+        motif = [revcomp_map[s] for s in motif][::-1]
     return motif
 
 
