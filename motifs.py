@@ -1,10 +1,10 @@
 import numpy as np
 import sys
-from Bio.Seq import Seq
 from random import randint
 
 bases = ['A', 'C', 'G', 'T']
-revcomp_map = {'A' : 'T', 'C' : 'G', 'G' : 'C', 'T' : 'A'}
+revcomp_map = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+
 
 def get_motif_pwm(homer_motif_path):
     with open(homer_motif_path, 'r') as f:
