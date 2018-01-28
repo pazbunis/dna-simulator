@@ -1,7 +1,9 @@
 from itertools import groupby
-
 import sys
 import math
+import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
+import numpy as np
 
 def fastaread(fasta_name):
     f = open(fasta_name)
@@ -41,3 +43,20 @@ def middle_subseqs(path_in, target_length):
             start_idx = math.floor((l - target_length) // 2)
             header = center_header(header, start_idx, target_length)
             yield header, seq[start_idx:start_idx + target_length]
+
+
+def plot_hist(x):
+    # the histogram of the data
+    n, bins, patches = plt.hist(x, 'auto', normed=True, facecolor='green', alpha=0.75)
+
+    # add a 'best fit' line
+    # y = mlab.normpdf( bins, mu, sigma)
+    l = plt.plot(bins)
+
+    plt.xlabel('value')
+    plt.ylabel('Probability')
+    plt.title("Histogram of values (bins='auto')")
+    plt.axis([np.min(x), np.max(x), 0, 0.05])
+    plt.grid(True)
+
+    plt.show()
